@@ -6,39 +6,35 @@ import bcrypt from "bcrypt";
 // Passportjs Local strategy
 passport.use(
   "local",
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await prisma.user.findFirst({
-        where: {
-          OR: [
-            {
-              email: username,
-            },
-            {
-              username: username,
-            },
-          ],
-        },
-      });
-
-      if (!user) {
-        return done(null, false, {
-          message: "Invalid Email/Username or Password",
+  new LocalStrategy(
+    { usernameField: "email", passwordField: "password" },
+    async (email, password, done) => {
+      try {
+        const user = await prisma.user.findFirst({
+          where: {
+            email: email,
+          },
         });
-      }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        return done(null, false, {
-          message: "Invalid Email/Username or Password",
-        });
-      }
+        if (!user) {
+          return done(null, false, {
+            message: "Invalid Email or Password",
+          });
+        }
 
-      return done(null, user);
-    } catch (err) {
-      return done(err);
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+          return done(null, false, {
+            message: "Invalid Email or Password",
+          });
+        }
+
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
     }
-  })
+  )
 );
 
 passport.serializeUser((user: any, done) => {

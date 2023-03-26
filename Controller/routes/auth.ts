@@ -8,18 +8,12 @@ const authRouter = Router();
 
 // Local Sign up endpoint
 authRouter.post("/signup", async (req, res, next) => {
-  const { email, password, name, username } = req.body;
+  const { email, password } = req.body;
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
-    const existingUsername = await prisma.user.findUnique({
-      where: { username },
-    });
 
     if (existingUser) {
       return res.status(409).json({ message: "Email already in use." });
-    }
-    if (existingUsername) {
-      return res.status(409).json({ message: "Username already in use." });
     }
 
     if (!utils.isValidEmail(email)) {
@@ -33,22 +27,12 @@ authRouter.post("/signup", async (req, res, next) => {
       });
     }
 
-    if (!utils.isValidName(name)) {
-      return res.status(409).json({ message: "Name is not valid." });
-    }
-
-    if (!utils.isValidUsername(username)) {
-      return res.status(409).json({ message: "Username is not valid." });
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
-        name,
-        username,
       },
     });
 

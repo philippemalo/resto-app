@@ -10,16 +10,12 @@ const authStore = useAuthStore();
 const accountCreationError = ref({ error: false, message: "" });
 
 const register = async () => {
-  const name = document.querySelector("input[name=name]") as HTMLInputElement;
-  const username = document.querySelector(
-    "input[name=username]"
-  ) as HTMLInputElement;
   const email = document.querySelector("input[name=email]") as HTMLInputElement;
   const password = document.querySelector(
     "input[name=password]"
   ) as HTMLInputElement;
 
-  await signup(name.value, username.value, email.value, password.value)
+  await signup(email.value, password.value)
     .then((res) => {
       if (res.status === 200) {
         authStore.setUser(res.data);
@@ -65,18 +61,6 @@ addEventListener("keydown", (e) => {
   </div>
   <ColorfulContainer>
     <form class="flex flex-col text-lg font-light">
-      <label name="name">Name</label>
-      <input
-        class="p-1 rounded transition border hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
-        type="text"
-        name="name"
-      />
-      <label name="username">Username</label>
-      <input
-        class="p-1 rounded transition border hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
-        type="text"
-        name="username"
-      />
       <label name="email">Email address</label>
       <input
         class="p-1 rounded transition border hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"

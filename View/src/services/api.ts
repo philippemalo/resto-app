@@ -5,20 +5,13 @@ const api = axios.create({
   baseURL: "http://localhost:4466",
 });
 
-const signin = (username: string, password: string) =>
-  api.post("/auth/signin", { username, password });
+const signin = (email: string, password: string) =>
+  api.post("/auth/signin", { email, password });
 
 const signout = () => api.get("/auth/signout");
 
-const signup = (
-  name: string,
-  username: string,
-  email: string,
-  password: string
-) => {
+const signup = (email: string, password: string) => {
   return api.post("/auth/signup", {
-    name,
-    username,
     email,
     password,
   });
@@ -26,6 +19,4 @@ const signup = (
 
 const session = () => api.get("/auth/session");
 
-const user = (username: string) => api.get(`/user/${username}`);
-
-export { signin, signout, signup, session, user };
+export { signin, signout, signup, session };

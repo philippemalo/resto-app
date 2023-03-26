@@ -23,10 +23,6 @@ const routes = [
     component: NotFound,
   },
   {
-    path: "/:username",
-    component: Profile,
-  },
-  {
     path: "/:pathMatch(.*)*",
     redirect: "/notfound",
   },

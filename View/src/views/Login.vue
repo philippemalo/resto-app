@@ -10,9 +10,7 @@ const authStore = useAuthStore();
 const wrongCredentials = ref(false);
 
 const login = async () => {
-  const email = document.querySelector(
-    "input[name=emailOrUsername]"
-  ) as HTMLInputElement;
+  const email = document.querySelector("input[name=email]") as HTMLInputElement;
   const password = document.querySelector(
     "input[name=password]"
   ) as HTMLInputElement;
@@ -56,15 +54,15 @@ addEventListener("keydown", (e) => {
     v-if="wrongCredentials"
     class="absolute top-5 left-1/2 transform -translate-x-1/2 border rounded p-2 bg-red-100 text-red-500"
   >
-    Invalid Email/Username or Password
+    Invalid Email or Password
   </div>
   <ColorfulContainer>
     <form class="flex flex-col text-lg font-light">
-      <label name="emailOrUsername">Email or Username</label>
+      <label name="email">Email</label>
       <input
         class="p-1 rounded transition border hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
         type="text"
-        name="emailOrUsername"
+        name="email"
         required
       />
       <label name="password">Password</label>
