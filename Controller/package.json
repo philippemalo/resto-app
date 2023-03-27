@@ -8,6 +8,7 @@
     "start": "ts-node index.ts",
     "gen": "npx prisma generate",
     "dbp": "npx prisma db push",
+    "seed": "ts-node seed.ts",
     "studio": "npx prisma studio",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
