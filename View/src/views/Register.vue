@@ -14,8 +14,11 @@ const register = async () => {
   const password = document.querySelector(
     "input[name=password]"
   ) as HTMLInputElement;
+  const secretKey = document.querySelector(
+    "input[name=secretkey]"
+  ) as HTMLInputElement;
 
-  await signup(email.value, password.value)
+  await signup(email.value, password.value, secretKey.value)
     .then((res) => {
       if (res.status === 200) {
         authStore.setUser(res.data);
@@ -44,8 +47,11 @@ addEventListener("keydown", (e) => {
     const passwordInput = document.querySelector(
       "input[name=password]"
     ) as HTMLElement;
+    const secretKeyInput = document.querySelector(
+      "input[name=secretkey]"
+    ) as HTMLElement;
     if (!element) return;
-    if (element === passwordInput) {
+    if (element === passwordInput || element === secretKeyInput) {
       register();
     }
   }
@@ -72,6 +78,12 @@ addEventListener("keydown", (e) => {
         class="p-1 rounded transition border hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
         type="password"
         name="password"
+      />
+      <label name="secretkey">Account creation key</label>
+      <input
+        class="p-1 rounded transition border hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
+        type="password"
+        name="secretkey"
       />
       <input
         class="bg-fuchsia-500 my-4 p-1 rounded text-white transition cursor-pointer hover:scale-105"

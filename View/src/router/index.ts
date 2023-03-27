@@ -3,7 +3,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import NotFound from "../views/NotFound.vue";
-import Profile from "../views/Profile.vue";
+import Admin from "../views/Admin.vue";
 
 const routes = [
   {
@@ -17,6 +17,10 @@ const routes = [
   {
     path: "/register",
     component: Register,
+  },
+  {
+    path: "/admin",
+    component: Admin,
   },
   {
     path: "/notfound",

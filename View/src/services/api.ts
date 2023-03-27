@@ -10,10 +10,11 @@ const signin = (email: string, password: string) =>
 
 const signout = () => api.get("/auth/signout");
 
-const signup = (email: string, password: string) => {
+const signup = (email: string, password: string, secretKey: string) => {
   return api.post("/auth/signup", {
     email,
     password,
+    secretKey,
   });
 };
 

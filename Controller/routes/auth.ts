@@ -8,9 +8,14 @@ const authRouter = Router();
 
 // Local Sign up endpoint
 authRouter.post("/signup", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, secretKey } = req.body;
   try {
+    if (secretKey !== process.env.ACCOUNT_CREATION_KEY) {
+      return res.status(409).json({ message: "Invalid secret key." });
+    }
+
     const existingUser = await prisma.user.findUnique({ where: { email } });
+    const isFirstUser = (await prisma.user.count()) === 0;
 
     if (existingUser) {
       return res.status(409).json({ message: "Email already in use." });
@@ -33,6 +38,7 @@ authRouter.post("/signup", async (req, res, next) => {
       data: {
         email,
         password: hashedPassword,
+        admin: isFirstUser,
       },
     });
 
