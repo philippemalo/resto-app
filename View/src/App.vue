@@ -34,7 +34,5 @@ checkSession();
   >
     Logout
   </button>
-  <div class="grid w-screen h-screen place-items-center bg-slate-50">
-    <router-view />
-  </div>
+  <router-view />
 </template>

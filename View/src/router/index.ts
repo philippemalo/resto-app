@@ -4,6 +4,8 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import NotFound from "../views/NotFound.vue";
 import Admin from "../views/Admin.vue";
+import { useAuthStore } from "../stores/auth";
+import { session } from "../services/api";
 
 const routes = [
   {
@@ -35,6 +37,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach(async (to, from) => {
+  if (to.path === "/admin") {
+    const response = await session();
+    if (response.data === null) {
+      return { path: "/login" };
+    }
+  }
 });
 
 export default router;
