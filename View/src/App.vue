@@ -22,7 +22,7 @@ checkSession();
 </script>
 
 <template>
-  <router-link
+  <!-- <router-link
     class="absolute top-5 left-5 font-bold hover:underline z-10"
     to="/"
     >Home</router-link
@@ -33,6 +33,6 @@ checkSession();
     class="absolute top-5 right-5 font-bold hover:underline z-10"
   >
     Logout
-  </button>
-  <router-view />
+  </button> -->
+  <router-view class="font-roboto" />
 </template>
