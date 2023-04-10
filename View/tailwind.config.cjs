@@ -6,7 +6,13 @@ module.exports = {
       sans: ["Roboto"],
       roboto: ["Roboto", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      colors: {
+        babarBeige: "#FAF2E5",
+        babarBeigeDark: "#F2D7AA",
+        babarYellow: "#F0BD40",
+      },
+    },
   },
   plugins: [],
 };

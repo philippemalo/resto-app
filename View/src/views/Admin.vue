@@ -18,7 +18,7 @@ const state = reactive({
   selectedPanel: analyticsTimePeriods[0],
   showCreateMenuForm: false,
   newMenuTitle: "",
-  menus: [],
+  menus: [] as any,
 });
 
 const triggerNavHide = () => {
@@ -33,7 +33,6 @@ const handleCreateMenu = async () => {
   await createMenu(state.newMenuTitle).then((res) => {
     state.menus.push(res.data);
   });
-  console.log(`A new menu named ${state.newMenuTitle} has been created!`);
 };
 
 const editNewMenuTitle = (e: any) => {
@@ -54,21 +53,25 @@ loadMenusInState();
     class="grid w-screen h-screen bg-slate-50 overflow-hidden font-roboto"
   >
     <div
-      class="absolute m-2 p-1 border border-zinc-900 rounded-full top-0 left-0 cursor-pointer lg:hidden"
+      class="absolute m-2 p-1 border border-neutral-900 rounded-full top-0 left-0 cursor-pointer lg:hidden z-50"
       @click="() => (state.hideNav = !state.hideNav)"
     >
       {{ "< >" }}
     </div>
     <div
       id="admin-nav"
-      class="border border-red-600 w-screen lg:w-80 xl:w-96 flex flex-col items-center justify-between p-5 transition-all"
+      class="bg-babarBeige drop-shadow-xl w-screen lg:w-80 xl:w-96 flex flex-col items-center justify-between p-5 transition-all"
       :class="[state.hideNav === true && 'translate-x-[-100%]']"
     >
       <div id="nav-top-section" class="flex flex-col items-center w-full">
-        <div id="top-section-logo">Logo</div>
+        <img
+          class="w-64 mb-5"
+          src="../assets/Babar-Admin-Logo.svg"
+          alt="Babar Admin Logo"
+        />
         <div
           id="top-section-nav-buttons"
-          class="flex flex-row border-b border-zinc-900 w-full justify-center"
+          class="flex flex-row gap-5 border-b border-neutral-900 w-full justify-center"
         >
           <div
             class="p-2 cursor-pointer font-roboto"
@@ -81,11 +84,10 @@ loadMenusInState();
         </div>
         <div v-if="state.selectedMenu === menuItems[0]">
           <div class="flex flex-col gap-3 p-5">
-            <!-- Styling for selected panel shouldn't be underline. See figma design -->
             <div
-              class="p-3 border rounded border-zinc-900 w-60 cursor-pointer"
+              class="bg-babarBeigeDark p-3 border rounded border-neutral-900 w-60 cursor-pointer"
               v-for="item in analyticsTimePeriods"
-              :class="[item === state.selectedPanel && 'underline']"
+              :class="[item === state.selectedPanel && 'bg-babarYellow']"
               @click="
                 () => {
                   triggerNavHide();
@@ -100,8 +102,8 @@ loadMenusInState();
         <div v-else-if="state.selectedMenu === menuItems[1]">
           <div class="flex flex-col gap-3 p-5">
             <div
-              class="p-3 border rounded border-zinc-900 w-60 cursor-pointer"
-              :class="[item.title === state.selectedPanel && 'underline']"
+              class="bg-babarBeigeDark p-3 border rounded border-neutral-900 w-60 cursor-pointer"
+              :class="[item.title === state.selectedPanel && 'bg-babarYellow']"
               v-for="item in state.menus"
               @click="
                 () => {
@@ -118,11 +120,12 @@ loadMenusInState();
       <div id="bottom-section" class="flex flex-col items-center w-full">
         <div
           v-if="state.showCreateMenuForm"
-          class="flex flex-col p-3 border rounded border-zinc-900 w-60"
+          class="flex flex-col p-3 border rounded border-neutral-900 bg-white w-60"
         >
-          <div>Title</div>
+          <div class="text-neutral-500">Title</div>
           <div class="flex flex-row">
             <input
+              class="outline-none w-full border-b border-neutral-500"
               type="text"
               id="title"
               name="title"
@@ -134,12 +137,12 @@ loadMenusInState();
         <button
           v-if="state.selectedMenu === menuItems[1]"
           @click="() => (state.showCreateMenuForm = !state.showCreateMenuForm)"
-          class="m-5 p-3 border rounded border-zinc-900 w-60 cursor-pointer"
+          class="m-5 p-3 rounded bg-neutral-900 text-white w-60 cursor-pointer"
         >
           Create a menu
         </button>
         <div
-          class="flex flex-row border-t border-zinc-900 w-full justify-center p-5"
+          class="flex flex-row border-t border-neutral-900 w-full justify-center p-5"
         >
           {{ authStore.user?.email }}
         </div>
