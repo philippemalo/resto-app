@@ -25,7 +25,6 @@ model User {
 model Menu {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   title String @unique
-  items Item[]
   categories Category[]
 
   createdAt DateTime @default(now())
@@ -49,12 +48,10 @@ model Item {
   title       String
   description String?
   price       Float
+  visible     Boolean @default(true)
 
   categoryId String?   @db.ObjectId
   category   Category? @relation(fields: [categoryId], references: [id])
-
-  menuId String @db.ObjectId
-  menu   Menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

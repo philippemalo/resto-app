@@ -166,10 +166,29 @@ const seed = async () => {
     });
   }
 
+  let uncategorized = await prisma.category.findFirst({
+    where: {
+      title: "Uncategorized",
+    },
+  });
+
+  if (!uncategorized) {
+    uncategorized = await prisma.category.create({
+      data: {
+        title: "Uncategorized",
+        menu: {
+          connect: {
+            id: mainMenu!.id,
+          },
+        },
+      },
+    });
+  }
+
   menuItems.forEach(async (item) => {
     const itemExists = await prisma.item.findFirst({
       where: {
-        menuId: mainMenu!.id,
+        categoryId: uncategorized!.id,
         title: item.title,
       },
     });
@@ -180,9 +199,9 @@ const seed = async () => {
         title: item.title,
         description: item?.description,
         price: item.price,
-        menu: {
+        category: {
           connect: {
-            id: mainMenu!.id,
+            id: uncategorized!.id,
           },
         },
       },

@@ -28,6 +28,7 @@ const state = reactive({
 const loadMenusInState = async () => {
   const response = await getMenus();
   state.menus = response.data;
+  console.log(response.data);
 };
 loadMenusInState();
 

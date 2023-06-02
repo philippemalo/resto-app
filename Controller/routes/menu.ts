@@ -10,7 +10,7 @@ menuRouter.get("/", async (req, res) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   let menus = await prisma.menu.findMany({
-    include: { categories: true, items: true },
+    include: { categories: { include: { items: true } } },
   });
   return res.status(200).json(menus);
 });
@@ -22,6 +22,7 @@ menuRouter.get("/:menuId", async (req, res) => {
   }
   const menu = await prisma.menu.findUnique({
     where: { title: req.params.menuId },
+    include: { categories: { include: { items: true } } },
   });
   return res.status(200).json(menu);
 });
@@ -46,6 +47,7 @@ menuRouter.post("/", async (req, res) => {
     data: {
       title,
     },
+    include: { categories: { include: { items: true } } },
   });
   return res.status(200).json(newMenu);
 });
@@ -65,6 +67,7 @@ menuRouter.put("/:menuId", async (req, res) => {
     data: {
       title: title,
     },
+    include: { categories: { include: { items: true } } },
   });
   return res.status(200).json(updatedMenu);
 });
@@ -103,6 +106,7 @@ menuRouter.post("/:menuId/category", async (req, res) => {
         },
       },
     },
+    include: { items: true },
   });
   return res.status(200).json(newCategory);
 });
@@ -122,6 +126,7 @@ menuRouter.put("/:menuId/category/:categoryId", async (req, res) => {
     data: {
       title: title,
     },
+    include: { items: true },
   });
   return res.status(200).json(updatedCategory);
 });
@@ -151,14 +156,24 @@ menuRouter.post("/:menuId/item", async (req, res) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const { title, price, description } = req.body;
+  const uncategorized = await prisma.category.findFirst({
+    where: {
+      title: "Uncategorized",
+    },
+  });
+  if (!uncategorized) {
+    return res
+      .status(404)
+      .json({ message: "Uncategorized category not found" });
+  }
   const newItem = await prisma.item.create({
     data: {
       title: title,
       price: price,
       description: description,
-      menu: {
+      category: {
         connect: {
-          id: req.params.menuId,
+          id: uncategorized.id,
         },
       },
     },
@@ -186,11 +201,6 @@ menuRouter.post("/:menuId/category/:categoryId/item", async (req, res) => {
           id: req.params.categoryId,
         },
       },
-      menu: {
-        connect: {
-          id: req.params.menuId,
-        },
-      },
     },
   });
   return res.status(200).json(newItem);
@@ -205,13 +215,14 @@ menuRouter.put("/:menuId/item/:itemId", async (req, res) => {
   if (!authenticatedUser.admin) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const { title, price, description } = req.body;
+  const { title, price, description, visible } = req.body;
   const updatedItem = await prisma.item.update({
     where: { id: req.params.itemId },
     data: {
       title: title,
       price: price,
       description: description,
+      visible: visible,
     },
   });
   return res.status(200).json(updatedItem);
