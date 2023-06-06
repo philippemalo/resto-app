@@ -22,7 +22,7 @@ const props = defineProps<IProps>();
     </div>
 
     <div
-      class="overflow-y-scroll overflow-hidden"
+      class="overflow-y-scroll hide-scrollbar"
       v-else-if="props.menus.map((menu) => menu.id).includes(selectedPanel)"
     >
       <h1
@@ -51,7 +51,7 @@ const props = defineProps<IProps>();
           .categories"
       >
         <div
-          id="category-header"
+          :id="category.id"
           class="flex flex-row border rounded border-gray-700 bg-zinc-300"
         >
           <h3 class="flex justify-center items-center w-full">
@@ -68,14 +68,14 @@ const props = defineProps<IProps>();
             alt="category header delete button"
           />
         </div>
-        <div v-for="item in category.items">
-          <MenuItem
-            :title="item.title"
-            :description="item.description"
-            :price="item.price"
-            :visible="item.visible"
-          ></MenuItem>
-        </div>
+        <MenuItem
+          v-for="item in category.items"
+          :id="item.id"
+          :title="item.title"
+          :description="item.description"
+          :price="item.price"
+          :visible="item.visible"
+        ></MenuItem>
       </div>
     </div>
   </div>
