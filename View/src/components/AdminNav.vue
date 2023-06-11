@@ -68,7 +68,7 @@ addEventListener("resize", () => {
   </div>
   <div
     id="admin-nav"
-    class="bg-babarBeige drop-shadow-xl absolute lg:relative z-10 w-screen h-screen lg:w-80 flex flex-col items-center justify-between p-5 transition-all"
+    class="bg-babarBeige lg:drop-shadow-xl absolute lg:relative z-10 w-screen h-screen lg:w-80 flex flex-col items-center justify-between p-5 transition-all"
     :class="[hideNav === true && 'translate-x-[-100%]']"
   >
     <div id="nav-top-section" class="flex flex-col items-center w-full">

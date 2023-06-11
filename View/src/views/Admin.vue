@@ -42,6 +42,12 @@ const updateNavMenus = (newMenu: MenuItem) => {
 const updateSelectedPanel = (panel: string) => {
   selectedPanel.value = panel;
 };
+const updateMenuTitle = (menuId: string, newTitle: string) => {
+  const menu = state.menus.find((menu) => menu.id === menuId);
+  if (menu) {
+    menu.title = newTitle;
+  }
+};
 </script>
 
 <template>
@@ -64,6 +70,7 @@ const updateSelectedPanel = (panel: string) => {
       :analyticsTimePeriods="analyticsTimePeriods"
       :selectedNavMenu="selectedNavMenu"
       :selectedPanel="selectedPanel"
+      @updateMenuTitle="updateMenuTitle"
     />
   </div>
 </template>

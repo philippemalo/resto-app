@@ -17,7 +17,7 @@ const extended = ref(false);
 <template>
   <div
     class="flex flex-row border-b border-b-black py-2 w-full"
-    :class="extended ? 'min-h-[80px]' : 'h-20'"
+    :class="extended ? 'h-28' : 'h-20'"
   >
     <img
       class="w-4 h-4 my-auto mx-2"

@@ -62,6 +62,15 @@ menuRouter.put("/:menuId", async (req, res) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   const { title } = req.body;
+  if (title === "") {
+    return res.status(400).json({ message: "Title cannot be empty" });
+  }
+  const existingMenuTitle = await prisma.menu.findUnique({
+    where: { title: title },
+  });
+  if (existingMenuTitle) {
+    return res.status(409).json({ message: "Menu title already in use." });
+  }
   const updatedMenu = await prisma.menu.update({
     where: { id: req.params.menuId },
     data: {
