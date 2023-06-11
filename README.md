@@ -1,7 +1,7 @@
 # Restaurant CMS
 
-This is a **fullstack application** based on my template own (https://github.com/philippemalo/MVC-template).
-This web application features an admin panel with a basic authentication system. It allows the user to create, update and delete food menus.
+This is a **fullstack application** based on my own template (https://github.com/philippemalo/MVC-template).
+This web application features an admin panel with a basic authentication system. The app allows the authenticated user to create, update and delete food menus.
 
 ## Installation
 
