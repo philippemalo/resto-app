@@ -5,7 +5,7 @@ import menuRouter from "./menu";
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json({ message: "MVC-Template server" });
+  res.status(200).json({ message: "Resto-app Server is running!" });
 });
 
 router.use("/auth", authRouter);
